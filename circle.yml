@@ -26,10 +26,12 @@ dependencies:
     - echo Downloading msp430 includes...
     - wget https://github.com/BenjaminSoelberg/msp430-elf/archive/gcc_rh.zip -O msp430-elf-gcc_rh.zip
     - unzip msp430-elf-gcc_rh.zip
+
+    - echo Installing msp430 includes...
     - cp -rf msp430-elf-gcc_rh/include/* $GCC_HOME/include/
 
     - echo Generating artifacts...
-    - cd $HOME && tar -cvzf $CIRCLE_ARTIFACTS/msp430-elf-gcc-without-mspdebug-3.05.00.00.tar.gz msp430-elf-gcc
+    - cd $HOME && tar -cvzf $CIRCLE_ARTIFACTS/msp430-elf-gcc-without-mspdebug_3.05.00.00_ubuntu_x64.tar.gz msp430-elf-gcc
 
 test:
   override:
