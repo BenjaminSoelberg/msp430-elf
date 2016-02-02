@@ -1,0 +1,38 @@
+machine:
+  environment:
+    GCC_HOME: $HOME/msp430-elf-gcc
+
+  pre:
+    - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 10
+    - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20
+    - echo alias ll=\'ls -al\' >> ~/.bash_profile # setup ll alias for later ssh login
+
+dependencies:
+  override:
+    - echo Downloading msp430 elf gcc compiler source...
+    - wget https://github.com/BenjaminSoelberg/msp430-elf/archive/sources.zip -O msp430-elf-sources.zip
+    - unzip msp430-elf-sources.zip
+
+    - echo Configuring msp-430-elf-gcc...
+    - mkdir -p msp430-elf-sources/msp430-gcc-obj
+    - cd msp430-elf-sources/msp430-gcc-obj && ../tools/configure --prefix=$GCC_HOME --target=msp430-elf --enable-languages=c,c++ --disable-itcl --disable-tk --disable-tcl --disable-libgui --disable-gdbtk
+
+    - echo Compiling msp-430-elf-gcc...
+    - cd msp430-elf-sources/msp430-gcc-obj && make
+
+    - echo Installing msp-430-elf-gcc...
+    - cd msp430-elf-sources/msp430-gcc-obj && make install
+
+    - echo Downloading msp430 includes...
+    - wget https://github.com/BenjaminSoelberg/msp430-elf/archive/gcc_rh.zip -O msp430-elf-gcc_rh.zip
+    - unzip msp430-elf-gcc_rh.zip
+    - cp -rf msp430-elf-gcc_rh/include/* $GCC_HOME/include/
+
+test:
+  override:
+    - echo "No tests."
+
+#general:
+#  artifacts:
+#    - "openchronos.elf" # openchronos firmwaew in binary format with additional info
+#    - "openchronos.txt" # openchronos firmware in TI hex format
