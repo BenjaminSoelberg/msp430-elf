@@ -28,11 +28,9 @@ dependencies:
     - unzip msp430-elf-gcc_rh.zip
     - cp -rf msp430-elf-gcc_rh/include/* $GCC_HOME/include/
 
+    - echo Generating artifacts...
+    - cd $HOME && tar -cvzf $CIRCLE_ARTIFACTS/msp430-elf-gcc-without-mspdebug-3.05.00.00.tar.gz msp430-elf-gcc
+
 test:
   override:
     - echo "No tests."
-
-#general:
-#  artifacts:
-#    - "openchronos.elf" # openchronos firmwaew in binary format with additional info
-#    - "openchronos.txt" # openchronos firmware in TI hex format
